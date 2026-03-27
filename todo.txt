@@ -1,0 +1,4 @@
+1 . structure ready 
+2 . navbar , footer , schema 
+3 . authentication , authorization , password reset , password forget 
+4 . 

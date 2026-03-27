@@ -1,0 +1,104 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
+  <div class="container">
+    <!-- Brand -->
+    <a class="navbar-brand fw-bold" href="#">UdoyBlog</a>
+
+    <!-- Mobile Toggle -->
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarMain"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- Navbar Content -->
+    <div class="collapse navbar-collapse" id="navbarMain">
+      <!-- Left Menu -->
+      <ul class="navbar-nav me-auto">
+
+        <!-- if log in  -->
+
+        
+        {% if request.user.is_authenticated %}
+          <li class="nav-item">
+          <a class="nav-link active" href="#">Home</a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" href="#">Dashboard</a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" href="#">Expenses</a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" href="#">Reports</a>
+        </li>
+      </ul>
+
+      <!-- Right Menu -->
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+        </li>
+
+        {% elif request.user.is_authenticated and request.user.role == 'moderator'%}
+      <li class="nav-item">
+          <a class="nav-link active" href="#">Home</a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" href="#">Dashboard</a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" href="#">Expenses</a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" href="#">Reports</a>
+        </li>
+      </ul>
+
+      <!-- Right Menu -->
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+        </li>
+
+        <li class="nav-item">
+          <a class="btn btn-primary ms-2" href="{% url 'registration' %}">
+            Register
+          </a>
+        </li>
+
+        {% else %}
+        <li class="nav-item">
+          <a class="nav-link active" href="#">Home</a>
+        </li>
+
+      
+      </ul>
+
+      <!-- Right Menu -->
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'login' %}">Login</a>
+        </li>
+
+        <li class="nav-item">
+          <a class="btn btn-primary ms-2" href="{% url 'registration' %}">
+            Register
+          </a>
+        </li>
+        {% endif %}
+          
+
+        
+      </ul>
+    </div>
+  </div>
+</nav>

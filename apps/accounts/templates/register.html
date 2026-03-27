@@ -1,0 +1,132 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-6">
+    <div class="card shadow-lg">
+      <div class="card-body p-5">
+        <h2 class="card-title text-center mb-4">Create Account</h2>
+
+        {% if messages %}
+          {% for message in messages %}
+            {% if message.tags == "error" %}
+              <div class="alert alert-danger rounded-3 p-2" role="alert">
+                {{ message }}
+              </div>
+            {% elif message.tags == "success" %}
+              <div class="alert alert-success rounded-3 p-2" role="alert">
+                {{ message }}
+              </div>
+            {% endif %}
+          {% endfor %}
+        {% endif %}
+
+        <form method="post" action="{% url 'registration' %}">
+          {% csrf_token %}
+
+          <div class="mb-3">
+            <label for="full_name" class="form-label">Full Name</label>
+            <input
+              type="text"
+              name="full_name"
+              class="form-control"
+              id="full_name"
+              placeholder="Enter your full name"
+              value="{{ form.full_name.value|default:'' }}"
+            >
+            {% for error in form.full_name.errors %}
+              <div class="text-danger small">{{ error }}</div>
+            {% endfor %}
+          </div>
+
+          <div class="mb-3">
+            <label for="email" class="form-label">Email</label>
+            <input
+              type="email"
+              name="email"
+              class="form-control"
+              id="email"
+              placeholder="Enter your email"
+              value="{{ form.email.value|default:'' }}"
+            >
+            {% for error in form.email.errors %}
+              <div class="text-danger small">{{ error }}</div>
+            {% endfor %}
+          </div>
+
+          <div class="mb-3">
+            <label for="phone" class="form-label">Contact Number</label>
+            <input
+              type="text"
+              name="phone"
+              class="form-control"
+              id="phone"
+              placeholder="Enter your contact number"
+              value="{{ form.phone.value|default:'' }}"
+            >
+            {% for error in form.phone.errors %}
+              <div class="text-danger small">{{ error }}</div>
+            {% endfor %}
+          </div>
+
+          <div class="mb-3">
+            <label for="username" class="form-label">Username</label>
+            <input
+              type="text"
+              name="username"
+              class="form-control"
+              id="username"
+              placeholder="Enter your username"
+              value="{{ form.username.value|default:'' }}"
+            >
+            {% for error in form.username.errors %}
+              <div class="text-danger small">{{ error }}</div>
+            {% endfor %}
+          </div>
+
+          <div class="mb-3">
+            <label for="password1" class="form-label">Password</label>
+            <input
+              type="password"
+              name="password1"
+              class="form-control"
+              id="password1"
+              placeholder="Enter your password"
+            >
+            {% for error in form.password1.errors %}
+              <div class="text-danger small">{{ error }}</div>
+            {% endfor %}
+          </div>
+
+          <div class="mb-3">
+            <label for="password2" class="form-label">Confirm Password</label>
+            <input
+              type="password"
+              name="password2"
+              class="form-control"
+              id="password2"
+              placeholder="Confirm your password"
+            >
+            {% for error in form.password2.errors %}
+              <div class="text-danger small">{{ error }}</div>
+            {% endfor %}
+          </div>
+
+          {% for error in form.non_field_errors %}
+            <div class="text-danger small mb-2">{{ error }}</div>
+          {% endfor %}
+
+          <button type="submit" class="btn btn-primary w-100">Register</button>
+        </form>
+
+        <hr class="my-4" />
+
+        <p class="text-center">
+          Already have an account?
+          <a href="{% url 'login' %}">Login here</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

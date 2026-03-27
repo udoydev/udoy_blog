@@ -1,0 +1,80 @@
+project start : django-admin startproject config . 
+app creation :  python manage.py startup 
+as i have nested the app inside the folder so i have to do these steps : 
+1. touch apps/__init__.py # bash
+2. "apps.accounts" # settings
+3. python manage.py check 
+4. python manage.py migrate
+
+
+# Postgres setup 
+sudo apt update
+sudo apt install postgresql postgresql-contrib
+psql --version
+sudo systemctl start postgresql
+sudo systemctl status postgresql
+-- exit and 
+sudo -u postgres psql
+CREATE DATABASE blog_db;
+CREATE USER blog_user WITH PASSWORD 'strongpassword123';
+
+\c blog_db
+
+GRANT ALL PRIVILEGES ON DATABASE blog_db TO blog_user;
+GRANT USAGE, CREATE ON SCHEMA public TO blog_user;
+ALTER SCHEMA public OWNER TO blog_user;
+GRANT ALL PRIVILEGES ON DATABASE blog_db TO blog_user;
+\q --> exit postgres shell
+pip install psycopg2-binary --> install postgres driver
+
+in settings -- 
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'blog_db',
+        'USER': 'blog_user',
+        'PASSWORD': 'strongpassword123',
+        'HOST': 'localhost',
+        'PORT': '5432',
+    }
+}
+
+python manage.py migrate
+\l --> list of all the databases name 
+
+
+----- Credentials ------
+admin : user --> udoy 
+        password ---> admin@123
+
+
+Custome _ User _ Creation ----------------------------------------
+Topic: Django Custom User Model
+
+Problem
+Need roles (admin, moderator, user) and flexible auth system.
+
+Concept
+Default Django uses auth_user table.
+To extend user features, create a custom model using AbstractUser.
+
+Example
+class User(AbstractUser):
+    role = models.CharField(max_length=20)
+
+Rule
+Custom user model must be defined BEFORE first migration.
+Otherwise resetting DB or complex migrations are required.
+
+-- if migrate done before creating then reset the database 
+sudo -u postgres psql
+\c blog_db
+--->
+DROP SCHEMA public CASCADE;
+CREATE SCHEMA public;
+GRANT USAGE, CREATE ON SCHEMA public TO blog_user;
+ALTER SCHEMA public OWNER TO blog_user;
+\q
+after that write down the model and settings and than update the db
+then create the super user 
+--------------------------------------------------------------
