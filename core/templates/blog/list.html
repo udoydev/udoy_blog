@@ -1,0 +1,56 @@
+{% extends 'base.html' %} {% block content %}
+<div class="container mt-5">
+  <h2 class="mb-4 text-center">All Blogs</h2>
+ {% for message in messages %}
+        <div class="alert alert-{{ message.tags }} text-center">{{ message }}</div>
+        {% endfor %}
+  {% if blogs %}
+  <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+    
+    {% for blog in blogs %}
+    <div class="col">
+      <div class="card h-100 shadow-sm">
+        {% if blog.image %}
+        <img 
+    src="{{ blog.image.url }}" 
+    class="card-img-top m-auto " 
+    alt="{{ blog.title }}"
+    style="height: 200px; width: 50%; object-fit: fill;"
+>
+        {% endif %}
+          
+        <div class="card-body">
+         
+          <h5 class="card-title">{{ blog.title }}</h5>
+          <p class="card-text">{{ blog.content|truncatechars:120 }}</p>
+          <p class="text-muted small">
+            By {{ blog.author.username }} | {{ blog.created_at|date:"M d, Y" }}
+          </p>
+          {% if blog.video %}
+          <video width="100%" controls class="mt-2">
+            <source src="{{ blog.video.url }}" type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
+          {% endif %}
+          <!-- 🔥 ACTION BUTTONS -->
+          <div class="mt-3 d-flex flex-wrap gap-2 align-items-center justify-content-between">
+            <a href="{% url 'blog_detail' blog.id %}" class="btn btn-primary btn-sm px-3">View</a>
+            {% if blog.author == request.user %}
+              <a href="{% url 'edit_blog' blog.id %}" class="btn btn-warning btn-sm px-3">Edit</a>
+
+              <form action="{% url 'delete_blog' blog.id %}" method="POST" class="m-0 d-inline">
+                {% csrf_token %}
+                <button class="btn btn-danger btn-sm px-3">Delete</button>
+              </form>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  {% else %}
+  <p class="text-center">No blogs found.</p>
+  {% endif %}
+</div>
+{% endblock %}

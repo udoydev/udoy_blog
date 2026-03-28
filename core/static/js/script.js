@@ -15,3 +15,14 @@
             
         }, 1000); 
     });
+
+    var toastElList = [].slice.call(document.querySelectorAll('.toast'))
+    
+    // Initialize Bootstrap Toast for each element with auto-hide enabled
+    toastElList.forEach(function(toastEl) {
+      var toast = new bootstrap.Toast(toastEl, {
+        delay: 3000, // time in milliseconds before auto-hide (3s)
+        autohide: true
+      });
+      toast.show(); // show the toast
+    });

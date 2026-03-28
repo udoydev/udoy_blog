@@ -1,12 +1,14 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from django.utils import timezone
+from django.conf import settings
+
 
 class user(AbstractUser):
  Role_Choices = (
   ('user','User'),
   ('moderator','Moderator'),
-  ('staff','Staff'),
-  ('admin','Admin'),
+ 
  )
  
  role = models.CharField(max_length=20, choices=Role_Choices,default='user')
@@ -19,3 +21,10 @@ class user(AbstractUser):
  
  def __str__(self):
     return self.username
+   
+
+# ------------------------------------------------------------------------
+# ------------------------------------------------------------------------
+
+
+ 

@@ -45,14 +45,24 @@ def user_log(request):
      return redirect("user_dash") 
  return render(request, 'login.html',{"form":form})
 
+
 # USER DASHBOARD
+from django.utils import timezone
+from datetime import timedelta
+from apps.blog.models import Blog 
 @login_required
 def user_dashboard(request):
+# Get current time
+    now = timezone.now()
+    # Calculate 24 hours ago
+    yesterday = now - timedelta(hours=24)
+    # Filter blogs created in last 24 hours
+    recent_blogs = Blog.objects.filter(created_at__gte=yesterday, is_published=True).order_by('-created_at')
 
-    if request.user.role != "user":
-        return redirect("login")
-
-    return render(request, "user_dash.html")
+    context = {
+        'recent_blogs': recent_blogs,
+    }
+    return render(request, 'user_dash.html', context)
 
 
 # MODERATOR DASHBOARD

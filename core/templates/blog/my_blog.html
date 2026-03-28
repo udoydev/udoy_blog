@@ -1,0 +1,55 @@
+{% extends 'base.html' %} {% block content %}
+<div class="container mt-5">
+  <h2 class="mb-4 text-center">My Blogs</h2>
+
+  {% if blogs %}
+  <div class="row">
+    {% for blog in blogs %}
+    <div class="col-md-4 mb-4">
+      <div class="card h-100 shadow-sm">
+        {% if blog.image %}
+       <img 
+    src="{{ blog.image.url }}" 
+    class="card-img-top m-auto " 
+    alt="{{ blog.title }}"
+    style="height: 200px; width: 50%; object-fit: fill;"
+>
+        {% endif %} {% for message in messages %}
+        <div class="alert alert-{{ message.tags }} bg-danger">
+          {{ message }}
+          <div class="card-body"></div>
+          {% endfor %}
+          <h5>{{ blog.title }}</h5>
+          <p>{{ blog.content|truncatechars:100 }}</p>
+
+          <!-- 🔥 STATUS -->
+          {% if blog.is_published %}
+          <span class="badge bg-success">Published</span>
+          {% else %}
+          <span class="badge bg-secondary">Draft</span>
+          {% endif %}
+
+          <p class="text-muted small mt-2">
+            {{ blog.created_at|date:"M d, Y" }}
+          </p>
+
+          <!-- 🔥 ACTION BUTTONS -->
+          <div class="mt-3 d-flex flex-wrap gap-2 align-items-center justify-content-between">
+            <a href="{% url 'blog_detail' blog.id %}" class="btn btn-primary btn-sm px-3">View</a>
+            <a href="{% url 'edit_blog' blog.id %}" class="btn btn-warning btn-sm px-3">Edit</a>
+            <form action="{% url 'delete_blog' blog.id %}" method="POST" class="m-0 d-inline">
+              {% csrf_token %}
+              <button class="btn btn-danger btn-sm px-3">Delete</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
+  {% else %}
+  <p class="text-center">You have no blogs yet.</p>
+  {% endif %}
+</div>
+{% endblock %}
