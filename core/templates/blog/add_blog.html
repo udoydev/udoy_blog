@@ -1,59 +1,81 @@
-{% extends 'base.html' %} {% block content %}
+{% extends 'base.html' %}
+{% block content %}
 <div class="row justify-content-center mt-5">
   <div class="col-md-7">
     <div class="card shadow-lg">
       <div class="card-body p-5">
-        <h2 class="text-center mb-4">Add New Blog</h2>
+        <h2 class="text-center mb-4">{{ is_edit|yesno:"Update Blog,Add New Blog" }}</h2>
 
+        <!-- Messages -->
         {% for message in messages %}
-        <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+          {{ message }}
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
         {% endfor %}
 
         <form method="post" enctype="multipart/form-data">
           {% csrf_token %}
 
+          <!-- Title -->
           <div class="mb-3">
             <label class="form-label">Title</label>
-            {{ form.title }} {% for error in form.title.errors %}
+            {{ form.title }}
+            {% for error in form.title.errors %}
             <div class="text-danger small">{{ error }}</div>
             {% endfor %}
           </div>
 
+          <!-- Content -->
           <div class="mb-3">
             <label class="form-label">Content</label>
-            {{ form.content }} {% for error in form.content.errors %}
+            {{ form.content }}
+            {% for error in form.content.errors %}
             <div class="text-danger small">{{ error }}</div>
             {% endfor %}
           </div>
 
+          <!-- Image Upload OR URL -->
           <div class="mb-3">
-            <label class="form-label">Image (optional)</label>
-            {{ form.image }} {% for error in form.image.errors %}
+            <label class="form-label">Image Upload (optional)</label>
+            {{ form.image }}
+            {% for error in form.image.errors %}
             <div class="text-danger small">{{ error }}</div>
             {% endfor %}
           </div>
-
           <div class="mb-3">
-            <label class="form-label">Video (optional)</label>
-            {{ form.video }} {% for error in form.video.errors %}
+            <label class="form-label">OR Image URL</label>
+            {{ form.image_url }}
+            {% for error in form.image_url.errors %}
             <div class="text-danger small">{{ error }}</div>
             {% endfor %}
           </div>
 
+          <!-- Video Upload OR URL -->
+          <div class="mb-3">
+            <label class="form-label">Video Upload (optional)</label>
+            {{ form.video }}
+            {% for error in form.video.errors %}
+            <div class="text-danger small">{{ error }}</div>
+            {% endfor %}
+          </div>
+          <div class="mb-3">
+            <label class="form-label">OR Video URL</label>
+            {{ form.video_url }}
+            {% for error in form.video_url.errors %}
+            <div class="text-danger small">{{ error }}</div>
+            {% endfor %}
+          </div>
+
+          <!-- Publish checkbox -->
           <div class="form-check mb-3">
             {{ form.is_published }}
             <label class="form-check-label">Publish now?</label>
           </div>
 
           <button type="submit" class="btn btn-primary w-100">
-            
-            {% if is_edit %}
-              Update
-              {% else %}
-              Add
-            {% endif %}
-              
-            </button>
+            {{ is_edit|yesno:"Update,Add" }}
+          </button>
         </form>
       </div>
     </div>

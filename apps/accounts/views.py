@@ -49,21 +49,33 @@ def user_log(request):
 # USER DASHBOARD
 from django.utils import timezone
 from datetime import timedelta
-from apps.blog.models import Blog 
+from django.contrib.auth.decorators import login_required
+from apps.blog.models import Blog
+from django.shortcuts import render
+
 @login_required
 def user_dashboard(request):
-# Get current time
     now = timezone.now()
-    # Calculate 24 hours ago
     yesterday = now - timedelta(hours=24)
-    # Filter blogs created in last 24 hours
-    recent_blogs = Blog.objects.filter(created_at__gte=yesterday, is_published=True).order_by('-created_at')
+
+    # All published blogs from last 24 hours (for everyone)
+    recent_blogs = Blog.objects.filter(
+        is_published=True,
+        created_at__gte=yesterday
+    ).order_by('-created_at')
+
+    # All of my blogs from last 24 hours (published or not)
+    my_recent_blogs = Blog.objects.filter(
+        author=request.user,
+        is_published=True,
+        created_at__gte=yesterday
+    ).order_by('-created_at')
 
     context = {
         'recent_blogs': recent_blogs,
+        'my_recent_blogs': my_recent_blogs,
     }
     return render(request, 'user_dash.html', context)
-
 
 # MODERATOR DASHBOARD
 @login_required

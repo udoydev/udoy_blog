@@ -1,39 +1,65 @@
 {% extends 'base.html' %}
 {% block content %}
 <div class="container mt-5">
-  <div class="card shadow-sm">
+  <div class="card shadow-sm mx-auto" style="max-width: 800px;">
+    
+    <!-- Blog Image -->
     {% if blog.image %}
       <img 
-    src="{{ blog.image.url }}" 
-    class="card-img-top m-auto " 
-    alt="{{ blog.title }}"
-    style="height: 200px; width: 50%; object-fit: fill;"
->
+        src="{{ blog.image.url }}" 
+        class="card-img-top" 
+        alt="{{ blog.title }}"
+        style="height: 300px; object-fit: cover;"
+      >
+    {% elif blog.image_url %}
+      <img 
+        src="{{ blog.image_url }}" 
+        class="card-img-top" 
+        alt="{{ blog.title }}"
+        style="height: 300px; object-fit: cover;"
+      >
     {% endif %}
 
-    <div class="card-body">
-      <h3 class="card-title text-center">{{ blog.title }}</h3>
-      <p class="card-text ">{{ blog.content }}</p>
+    <div class="card-body d-flex flex-column">
+      <!-- Title -->
+      <h3 class="card-title text-center mb-3">{{ blog.title }}</h3>
 
-      {% if blog.video %}
-        <video width="100%" controls class="mt-3">
-          <source src="{{ blog.video.url }}" type="video/mp4">
-          Your browser does not support the video tag.
-        </video>
-      {% endif %}
+      <!-- Content -->
+      <p class="card-text mb-4">{{ blog.content }}</p>
 
-      <p class="text-muted mt-3 text-center">
-        By {{ blog.author.username }} | {{ blog.created_at|date:"M d, Y" }}
+      <!-- Video -->
+{% if video_url %}
+  <video class="w-100 mb-4" controls style="max-height:300px; object-fit:cover;">
+    <source src="{{ video_url }}" type="{{ video_mime|default:'video/mp4' }}">
+    Your browser does not support the video tag.
+  </video>
+{% endif %}
+
+      <!-- Author & Date -->
+      <p class="text-muted text-center mb-3">
+        By {{ blog.author.username }} | {{ blog.created_at|date:"M d, Y H:i" }}
       </p>
 
+      <!-- Action Buttons -->
       {% if blog.author == request.user %}
-        <a href="{% url 'edit_blog' blog.id %}" class="btn btn-warning btn-sm">Edit</a>
-        <form action="{% url 'delete_blog' blog.id %}" method="POST" class="d-inline">
-          {% csrf_token %}
-          <button class="btn btn-danger btn-sm">Delete</button>
-        </form>
+        <div class="d-flex flex-wrap justify-content-center gap-2 mt-auto">
+          <a href="{% url 'edit_blog' blog.id %}" class="btn btn-warning btn-sm px-4">Edit</a>
+          <form action="{% url 'delete_blog' blog.id %}" method="POST" class="m-0">
+            {% csrf_token %}
+            <button class="btn btn-danger btn-sm px-4">Delete</button>
+          </form>
+        </div>
       {% endif %}
     </div>
   </div>
 </div>
+
+<style>
+  /* Optional: subtle card hover effect */
+  .card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+</style>
 {% endblock %}

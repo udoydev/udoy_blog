@@ -1,44 +1,107 @@
-<footer class="bg-dark text-white mt-5">
-  <div class="container py-4">
-    <div class="row">
-      <!-- About -->
-      <div class="col-md-4 mb-3">
-        <h5 class="fw-bold">UdoyBlog</h5>
-        <p class="small">
-          A simple expense management platform to track spending, manage
-          budgets, and stay financially organized.
+<footer
+  class="mt-auto border-top border-secondary text-light"
+  style="background: linear-gradient(135deg, #0f172a, #020617)"
+>
+  <div class="container py-5">
+    <div class="row g-5">
+      <!-- Brand -->
+      <div class="col-lg-4 col-md-6">
+        <h4 class="fw-bold text-white">UdoyBlog</h4>
+        <p class="small text-light opacity-75">
+          A modern platform to share ideas, learn deeply, and build your digital
+          voice. Consistency beats motivation — always.
         </p>
+
+        <!-- Social -->
+        <div class="d-flex gap-3 mt-3">
+          <a href="#" class="text-light opacity-75 fs-5"
+            ><i class="bi bi-github"></i
+          ></a>
+          <a href="#" class="text-light opacity-75 fs-5"
+            ><i class="bi bi-linkedin"></i
+          ></a>
+          <a href="#" class="text-light opacity-75 fs-5"
+            ><i class="bi bi-youtube"></i
+          ></a>
+        </div>
       </div>
 
-      <!-- Links -->
-      <div class="col-md-4 mb-3">
-        <h5 class="fw-bold">Quick Links</h5>
-        <ul class="list-unstyled">
-          <li><a href="#" class="text-white text-decoration-none">Home</a></li>
-          <li>
-            <a href="#" class="text-white text-decoration-none">Dashboard</a>
+      <!-- Navigation -->
+      <div class="col-lg-2 col-md-6">
+        <h6 class="fw-semibold text-white mb-3">Navigation</h6>
+        <ul class="list-unstyled small">
+          <li class="mb-2">
+            <a
+              href="{% url 'list' %}"
+              class="text-light opacity-75 text-decoration-none"
+              >Home</a
+            >
           </li>
-          <li>
-            <a href="#" class="text-white text-decoration-none">Expenses</a>
+          <li class="mb-2">
+            <a
+              href="{% url 'user_dash' %}"
+              class="text-light opacity-75 text-decoration-none"
+              >Dashboard</a
+            >
           </li>
-          <li>
-            <a href="#" class="text-white text-decoration-none">Reports</a>
+          <li class="mb-2">
+            <a
+              href="{% url 'my_blogs' %}"
+              class="text-light opacity-75 text-decoration-none"
+              >My Blogs</a
+            >
+          </li>
+        </ul>
+      </div>
+
+      <!-- Resources -->
+      <div class="col-lg-3 col-md-6">
+        <h6 class="fw-semibold text-white mb-3">Resources</h6>
+        <ul class="list-unstyled small">
+          <li class="mb-2">
+            <a href="#" class="text-light opacity-75 text-decoration-none"
+              >Privacy Policy</a
+            >
+          </li>
+          <li class="mb-2">
+            <a href="#" class="text-light opacity-75 text-decoration-none"
+              >Terms & Conditions</a
+            >
+          </li>
+          <li class="mb-2">
+            <a href="#" class="text-light opacity-75 text-decoration-none"
+              >Help Center</a
+            >
           </li>
         </ul>
       </div>
 
       <!-- Contact -->
-      <div class="col-md-4 mb-3">
-        <h5 class="fw-bold">Contact</h5>
-        <p class="small mb-1">Email: support@udoyblog.com</p>
-        <p class="small mb-1">Phone: +880-000-000000</p>
-        <p class="small">Dhaka, Bangladesh</p>
+      <div class="col-lg-3 col-md-6">
+        <h6 class="fw-semibold text-white mb-3">Contact</h6>
+        <p class="small text-light opacity-75 mb-1">support@udoyblog.com</p>
+        <p class="small text-light opacity-75 mb-1">+880-000-000000</p>
+        <p class="small text-light opacity-75">Dhaka, Bangladesh</p>
+
+        <!-- CTA -->
+        <a
+          href="{% url 'add_blog' %}"
+          class="btn btn-sm mt-3"
+          style="background: #38bdf8; color: #020617; border: none"
+        >
+          Start Writing
+        </a>
       </div>
     </div>
 
-    <hr class="border-light" />
+    <hr class="border-secondary my-4" />
 
-    <!-- Copyright -->
-    <div class="text-center small">© 2025 UdoyBlog. All Rights Reserved.</div>
+    <!-- Bottom -->
+    <div
+      class="d-flex flex-column flex-md-row justify-content-between align-items-center small text-light opacity-75"
+    >
+      <div>© 2026 UdoyBlog. All rights reserved.</div>
+      <div class="mt-2 mt-md-0">Built with Django 🚀 | Designed for growth</div>
+    </div>
   </div>
 </footer>

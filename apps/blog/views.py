@@ -1,4 +1,5 @@
 from django.shortcuts import render,redirect
+import mimetypes
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from .forms import BlogForm
@@ -11,6 +12,11 @@ def add_blog(request):
   if form.is_valid():
    blog = form.save(commit=False)
    blog.author = request.user
+   # If no file uploaded, use URL
+   if not blog.image and form.cleaned_data.get('image_url'):
+        blog.image_url = form.cleaned_data['image_url']
+   if not blog.video and form.cleaned_data.get('video_url'):
+        blog.video_url = form.cleaned_data['video_url']
    blog.save()
    messages.success(request , "Blog post created successfully ")
    return redirect('list')
@@ -22,7 +28,7 @@ def add_blog(request):
 
 @login_required(login_url='login')
 def list(request):
- blogs = Blog.objects.all().order_by('-created_at')
+ blogs = Blog.objects.filter(is_published=True).order_by('-created_at')
  return render(request, "blog/list.html", {"blogs": blogs,'is_edit':False})
 
 # My Blogs
@@ -75,6 +81,19 @@ def edit_blog(request, id):
 @login_required(login_url='login')
 def blog_detail(request, id):
     blog = get_object_or_404(Blog, id=id)
+    video_url = None
+    video_mime = None
 
-    return render(request, 'blog/blog_detail.html', {'blog': blog})
+    if blog.video:
+        video_url = blog.video.url
+        video_mime = mimetypes.guess_type(blog.video.name)[0] or 'video/mp4'
+    elif blog.video_url:
+        video_url = blog.video_url
+        video_mime = mimetypes.guess_type(blog.video_url)[0] or 'video/mp4'
+
+    return render(request, 'blog/blog_detail.html', {
+        'blog': blog,
+        'video_url': video_url,
+        'video_mime': video_mime,
+    })
 #----------------------------------------------------------------------------

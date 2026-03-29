@@ -4,15 +4,15 @@
 
   <!-- Welcome Section -->
   <div class="text-center mb-5">
-    <h2>Welcome, {{ request.user.full_name }}</h2>
-    <p class="text-muted">Here's your dashboard with your recent activity and all published blogs from the last 24 hours.</p>
+    <h2>Welcome, {{ request.user.username }}</h2>
+    
   </div>
 
   
-
+{% if recent_blogs %}
   <!-- 🌐 All Blogs in Last 24h -->
   <h4 class="mb-3">All Blogs (Past 24 Hours)</h4>
-  {% if recent_blogs %}
+  
     <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 mb-5">
       {% for blog in recent_blogs %}
       <div class="col">
@@ -35,10 +35,10 @@
   {% else %}
     <p>No new posts in the last 24 hours.</p>
   {% endif %}
-
+{% if my_recent_blogs %}
   <!-- 👤 My Blogs in Last 24h -->
   <h4 class="mb-3">My Blogs (Past 24 Hours)</h4>
-  {% if my_recent_blogs %}
+  
     <div class="row row-cols-1 row-cols-md-2 g-4">
       {% for blog in my_recent_blogs %}
       <div class="col">
