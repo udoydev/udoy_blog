@@ -50,22 +50,22 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'config.wsgi.application'
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'blog_db',
-        'USER': 'blog_user',
-        'PASSWORD': 'strongpassword123',
-        'HOST': 'localhost',
-        'PORT': '5432',
-    }
-}
-
-# import dj_database_url
-
 # DATABASES = {
-#     'default': dj_database_url.config(default='postgresql://blog_db_bzkl_user:pgcYvqAIfHTCheAz1TWuhnUOUQkEhEDS@dpg-d774fv3uibrs73a58d9g-a.oregon-postgres.render.com/blog_db_bzkl')
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'blog_db',
+#         'USER': 'blog_user',
+#         'PASSWORD': 'strongpassword123',
+#         'HOST': 'localhost',
+#         'PORT': '5432',
+#     }
 # }
+
+import dj_database_url
+
+DATABASES = {
+    'default': dj_database_url.config(default='postgresql://blog_db_bzkl_user:pgcYvqAIfHTCheAz1TWuhnUOUQkEhEDS@dpg-d774fv3uibrs73a58d9g-a.oregon-postgres.render.com/blog_db_bzkl')
+}
 
 AUTH_PASSWORD_VALIDATORS = [
     {
