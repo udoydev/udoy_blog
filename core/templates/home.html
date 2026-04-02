@@ -1,7 +1,114 @@
-{% extends 'base.html' %} {% block content %}
-<div class="text-center mt-5">
-  <h3>Password Reset Successful ✅</h3>
-  <p>You can now log in with your new password.</p>
-  <a href="{% url 'login' %}" class="btn btn-primary mt-3">Login</a>
-</div>
+{% extends 'base.html' %} {% load static %} {% block content %}
+<!-- HERO SECTION -->
+<section
+  class="py-5 text-light"
+  style="background: linear-gradient(135deg, #0f172a, #020617)"
+>
+  <div class="container text-center">
+    <h1 class="display-4 fw-bold">Welcome to UdoyBlog</h1>
+    <p class="lead opacity-75 mb-4">
+      Share your ideas, learn deeply, and build your digital voice. Consistency
+      beats motivation — always.
+    </p>
+  </div>
+</section>
+
+<!-- LATEST BLOGS -->
+<section class="py-5">
+  <div class="container">
+    {% if blogs %}
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+      {% for blog in blogs %}
+      <div class="col">
+        <div class="card h-100 shadow-sm hover-shadow">
+          {% if blog.image %}
+          <img
+            src="{{ blog.image.url }}"
+            class="card-img-top"
+            style="height: 180px; object-fit: cover"
+            alt="{{ blog.title }}"
+          />
+          {% elif blog.image_url %}
+          <img
+            src="{{ blog.image_url }}"
+            class="card-img-top"
+            style="height: 180px; object-fit: cover"
+            alt="{{ blog.title }}"
+          />
+          {% else %}
+          <img
+            src="{% static 'img/bg.png' %}"
+            class="card-img-top"
+            style="height: 180px; object-fit: cover"
+            alt="No Image"
+          />
+          {% endif %}
+
+          <div class="card-body d-flex flex-column">
+            <h5 class="card-title">{{ blog.title }}</h5>
+            <p class="card-text">{{ blog.content|truncatechars:120 }}</p>
+            <p class="text-muted small mb-2">
+              By {{ blog.author.username }} | {{ blog.created_at|date:"M d, Y"
+              }}
+            </p>
+
+            {% if blog.video %}
+            <video
+              class="w-100 mb-2"
+              controls
+              style="max-height: 150px; object-fit: cover"
+            >
+              <source src="{{ blog.video.url }}" type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
+            {% elif blog.video_url %}
+            <video
+              class="w-100 mb-2"
+              controls
+              style="max-height: 150px; object-fit: cover"
+            >
+              <source src="{{ blog.video_url }}" type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
+            {% endif %}
+
+            <a
+              href="{% url 'blog_detail' blog.id %}"
+              class="btn btn-primary mt-auto w-100"
+              >Read More</a
+            >
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    {% else %}
+    <p class="text-center">No blogs published yet. Be the first to write!</p>
+    {% endif %}
+  </div>
+</section>
+<!-- ABOUT / CTA -->
+<section class="py-5 bg-light text-dark">
+  <div class="container text-center">
+    <h2 class="fw-bold mb-3">Why Our Site?</h2>
+    <p class="mb-4 opacity-75">
+      We help creators, learners, and thinkers to grow. Publish your first blog,
+      connect with the community, and share your knowledge with the world.
+    </p>
+    <a href="{% url 'add_blog' %}" class="btn btn-info text-dark btn-lg px-4"
+      >Start Writing Now</a
+    >
+  </div>
+</section>
+
+<style>
+  /* Card hover effect */
+  .hover-shadow:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    transition:
+      transform 0.2s ease,
+      box-shadow 0.2s ease;
+  }
+</style>
 {% endblock %}

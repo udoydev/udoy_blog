@@ -21,6 +21,10 @@ from django.conf import settings
 from .forms import PasswordResetRequestForm
 from .models import user
 
+def home(request):
+ blogs = Blog.objects.filter(is_published=True).order_by('-created_at')[:3]
+ return render(request, 'home.html', {'blogs': blogs})
+
 # Create your views here.
 def user_reg(request):
  form = RegisterForm(request.POST or None)
@@ -42,7 +46,7 @@ def user_log(request):
      login(request,user)
      if user.role == "moderator":
       return redirect("moderator_dash")
-     return redirect("user_dash") 
+     return redirect("list") 
  return render(request, 'login.html',{"form":form})
 
 

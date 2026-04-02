@@ -7,6 +7,7 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
+ 'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -16,6 +17,7 @@ INSTALLED_APPS = [
 
     'apps.accounts.apps.AccountsConfig',
     'apps.blog',
+    
 ]
 
 MIDDLEWARE = [
@@ -102,3 +104,22 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'mdudoy00000@gmail.com'
 EMAIL_HOST_PASSWORD= 'ihrmbziwqgjzosba'
 DEFAULT_FROM_EMAIL= EMAIL_HOST_USER
+
+JAZZMIN_SETTINGS = {
+    "site_title": "UdoyBlog Admin",
+    "site_header": "Udoy Dashboard",
+    "site_brand": "UdoyBlog",
+    "welcome_sign": "Welcome to your control panel 🚀",
+
+    "topmenu_links": [
+        {"name": "Home", "url": "list"},
+        {"name": "Dashboard", "url": "user_dash"},
+    ],
+
+    "icons": {
+        "blog.Blog": "fas fa-blog",
+        "auth.User": "fas fa-user",
+    },
+
+    "theme": "darkly",  # 🔥 try: darkly, cyborg, flatly
+}

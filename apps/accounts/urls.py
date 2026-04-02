@@ -8,6 +8,8 @@ urlpatterns = [
     path('moderator_dash/',views.moderator_dashboard,name="moderator_dash"),
     path('logout/',views.user_logout,name="logout"),
     path("password_reset/", views.password_reset, name="password_reset"),
+    path("home/", views.home, name="home"),
+    
     path(
         "password_reset_confirm/<uid>/<token>/",
         views.password_reset_confirm,

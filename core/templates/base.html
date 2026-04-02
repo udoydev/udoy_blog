@@ -1,31 +1,27 @@
 {% load static %}
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!-- Links  -->
-  <link rel="stylesheet" href="{% static 'css/bootstrap.min.css'  %}">
-  <link rel="stylesheet" href="{% static 'css/style.css'  %}?v=4">
-  <title>Document</title>
-</head>
-<body class="d-flex flex-column min-vh-100">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Links  -->
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css'  %}" />
+    <link rel="stylesheet" href="{% static 'css/style.css'  %}?v=5" />
+    <title>Document</title>
+  </head>
+  <body class="d-flex flex-column min-vh-100">
+    <!-- Navbar -->
+    {% include "components/nav.html" %}
 
-  <!-- Navbar -->
-  {% include "components/nav.html" %}
+    <!-- Main content -->
+    <main class="flex-grow-1">
+      <div class="container py-4">{% block content %} {% endblock %}</div>
+    </main>
 
-  <!-- Main content -->
-  <main class="flex-grow-1">
-    <div class="container py-4">
-      {% block content %}
-      {% endblock %}
-    </div>
-  </main>
+    <!-- Footer -->
+    {% include "components/footer.html" %}
 
-  <!-- Footer -->
-  {% include "components/footer.html" %}
-
-  <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
-  <script src="{% static 'js/script.js' %}"></script>
-</body>
+    <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'js/script.js' %}"></script>
+  </body>
 </html>

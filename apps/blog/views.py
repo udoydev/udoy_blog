@@ -1,5 +1,6 @@
 from django.shortcuts import render,redirect
 import mimetypes
+import re
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from .forms import BlogForm
@@ -26,9 +27,42 @@ def add_blog(request):
   form = BlogForm()
  return render (request,"blog/add_blog.html",{"form":form})
 
+def _prepare_video_attrs(blog):
+    """Annotate a blog object with video display helpers."""
+    video_url = None
+    is_embed = False
+    embed_url = None
+    video_mime = None
+    original_url = None
+
+    if getattr(blog, "video", None):
+        video_url = blog.video.url
+        video_mime = mimetypes.guess_type(blog.video.name)[0] or "video/mp4"
+    elif getattr(blog, "video_url", None):
+        raw = blog.video_url
+        original_url = raw
+        # YouTube patterns: watch, youtu.be, embed, shorts
+        yt_match = re.search(r"(?:https?://)?(?:www\.)?(?:youtube\.com/(?:watch\?v=|embed/|shorts/)|youtu\.be/)([A-Za-z0-9_-]{6,})", raw)
+        if yt_match:
+            embed_url = f"https://www.youtube-nocookie.com/embed/{yt_match.group(1)}"
+            is_embed = True
+        else:
+            video_url = raw
+            video_mime = mimetypes.guess_type(raw)[0] or "video/mp4"
+
+    # attach for template use
+    blog.video_url_resolved = video_url
+    blog.video_mime = video_mime
+    blog.video_embed_url = embed_url
+    blog.video_is_embed = is_embed
+    blog.video_original_url = original_url or video_url
+
+
 @login_required(login_url='login')
 def list(request):
  blogs = Blog.objects.filter(is_published=True).order_by('-created_at')
+ for b in blogs:
+     _prepare_video_attrs(b)
  return render(request, "blog/list.html", {"blogs": blogs,'is_edit':False})
 
 # My Blogs
@@ -81,19 +115,9 @@ def edit_blog(request, id):
 @login_required(login_url='login')
 def blog_detail(request, id):
     blog = get_object_or_404(Blog, id=id)
-    video_url = None
-    video_mime = None
-
-    if blog.video:
-        video_url = blog.video.url
-        video_mime = mimetypes.guess_type(blog.video.name)[0] or 'video/mp4'
-    elif blog.video_url:
-        video_url = blog.video_url
-        video_mime = mimetypes.guess_type(blog.video_url)[0] or 'video/mp4'
+    _prepare_video_attrs(blog)
 
     return render(request, 'blog/blog_detail.html', {
         'blog': blog,
-        'video_url': video_url,
-        'video_mime': video_mime,
     })
 #----------------------------------------------------------------------------

@@ -20,15 +20,15 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.shortcuts import redirect
 
-# def home_redirect(request):
-#     return redirect('registration')
+def home_redirect(request):
+    return redirect('home')
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('',include('apps.accounts.urls')),
     path ('blog/',include('apps.blog.urls')),
-    # path('', home_redirect),   # <-- default route
+    path('', home_redirect),   # <-- default route
    
 ]
 
