@@ -64,7 +64,7 @@ WSGI_APPLICATION = 'config.wsgi.application'
 import dj_database_url
 
 DATABASES = {
-    'default': dj_database_url.config(default='postgresql://blog_db_bzkl_user:pgcYvqAIfHTCheAz1TWuhnUOUQkEhEDS@dpg-d774fv3uibrs73a58d9g-a.oregon-postgres.render.com/blog_db_bzkl')
+    'default': dj_database_url.config(default='postgresql://udoy_db_user:2zAC9Nlz9zm6LI541AHgOG32oG27pPCx@dpg-d774vp15pdvs73ceauf0-a.oregon-postgres.render.com/udoy_db')
 }
 
 AUTH_PASSWORD_VALIDATORS = [
