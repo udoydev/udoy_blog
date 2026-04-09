@@ -68,4 +68,6 @@ dist/
 # ===============================
 # Secrets (VERY IMPORTANT)
 # ===============================
+# Secrets (VERY IMPORTANT)
+# ===============================
 secret_key.txt
